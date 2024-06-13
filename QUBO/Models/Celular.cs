@@ -7,7 +7,7 @@ public partial class Celular
 {
     public long IdCelular { get; set; }
 
-    public string Modelo { get; set; } = null!;
+    public string? Modelo { get; set; }
 
     public string? Marca { get; set; }
 
