@@ -216,7 +216,7 @@ public partial class QuboDbContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("id_usuario");
             entity.Property(e => e.Contrasenia)
-                .HasMaxLength(100)
+                .HasMaxLength(256)
                 .HasColumnName("contrasenia");
             entity.Property(e => e.NombreUsuario)
                 .HasMaxLength(50)
