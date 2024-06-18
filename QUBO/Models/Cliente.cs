@@ -15,9 +15,5 @@ public partial class Cliente
 
     public string? Email { get; set; }
 
-    public long IdCelular { get; set; }
-
     public virtual ICollection<Arreglo> Arreglos { get; set; } = new List<Arreglo>();
-
-    public virtual Celular IdCelularNavigation { get; set; } = null!;
 }

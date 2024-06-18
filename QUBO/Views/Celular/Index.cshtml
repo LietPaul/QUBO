@@ -1,0 +1,53 @@
+﻿@model IEnumerable<QUBO.Models.Celular>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Modelo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Marca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoProducto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioUsd)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modelo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioUsd)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdCelular">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdCelular">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdCelular">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

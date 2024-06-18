@@ -17,7 +17,5 @@ public partial class Celular
 
     public virtual ICollection<Arreglo> Arreglos { get; set; } = new List<Arreglo>();
 
-    public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
-
     public virtual ICollection<Parte> Partes { get; set; } = new List<Parte>();
 }

@@ -1,0 +1,246 @@
+﻿@model QUBO.Models.Arreglo
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Arreglo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label for="ClienteDni" class="control-label">Cliente DNI</label>
+                <div class="input-group">
+                    <input type="text" id="ClienteDni" class="form-control" />
+                    <input type="hidden" id="IdCliente" name="IdCliente" />
+                    <button type="button" class="btn btn-primary" style="display:none;" id="btnAgregarCliente" onclick="loadForm('@Url.Action("CreatePartial", "Cliente")', 'Crear Cliente')">
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </button>
+                </div>
+                <small id="dniHelp" class="form-text text-muted" style="display:none;">Por favor, ingrese el DNI del cliente.</small>
+            </div>
+            <div class="form-group">
+                <label for="CelularCodigo" class="control-label">Codigo de Celular</label>
+                <div class="input-group">
+                    <input type="text" id="CelularCodigo" class="form-control" />
+                    <input type="hidden" id="IdCelular" name="IdCelular" />
+                    <button type="button" class="btn btn-primary" style="display:none;" id="btnAgregarCelular" onclick="loadForm('@Url.Action("CreatePartial", "Celular")', 'Crear Celular')">
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </button>
+                </div>
+                <small id="codigoHelp" class="form-text text-muted" style="display:none;">Por favor, ingrese el Codigo del cliente.</small>
+            </div>
+            <!--
+            <div class="form-group">
+                <label asp-for="IdCelular" class="control-label"></label>
+                <select asp-for="IdCelular" class="form-control" asp-items="ViewBag.IdCelular"></select>
+            </div>
+            -->
+            <div class="form-group">
+                <label asp-for="Problema" class="control-label"></label>
+                <input asp-for="Problema" class="form-control" />
+                <span asp-validation-for="Problema" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaIng" class="control-label"></label>
+                <input asp-for="FechaIng" class="form-control" />
+                <span asp-validation-for="FechaIng" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Total" class="control-label">Total</label>
+                <input asp-for="Total" class="form-control" />
+                <span asp-validation-for="Total" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Senia" class="control-label">Seña</label>
+                <input asp-for="Senia" class="form-control" />
+                <span asp-validation-for="Senia" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IdTecnico" class="control-label"></label>
+                <select asp-for="IdTecnico" class="form-control" asp-items="ViewBag.IdTecnico"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <select asp-for="Estado" class="form-control">
+                    <option value="Entrante">Entrante</option>
+                    <option value="Reparando">Reparando</option>
+                    <option value="Terminado">Terminado</option>
+                    <option value="Entregado">Entregado</option>
+                    <option value="Sin reparacion">Sin reparacion</option>
+                    <option value="Sin falla encontrada">Sin falla encontrada</option>
+                    <option value="Esperando confirmacion">Esperando confirmacion</option>
+                    <option value="Esperando repuesto">Esperando repuesto</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<!-- Modal genérico para formularios -->
+<div class="modal fade" id="genericModal" tabindex="-1" aria-labelledby="genericModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="genericModalLabel">Formulario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="genericFormContainer"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="submitGenericForm" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+
+    <script>
+        $(function () {
+            // Función para cargar formularios en el modal genérico
+            function loadForm(url, modalTitle) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#genericFormContainer').html(data);
+                        $('#genericModalLabel').text(modalTitle);
+                        $('#genericModal').modal('show');
+                    },
+                    error: function (error) {
+                        console.error('Error al cargar el formulario:', error);
+                    }
+                });
+            }
+
+            // Mostrar modal con formulario de cliente
+            $('#btnAgregarCliente').on('click', function () {
+                loadForm('@Url.Action("CreatePartial", "Cliente")', 'Crear Cliente');
+                $("#ClienteDni").val('');
+            });
+            // Mostrar modal con formulario de cliente
+            $('#btnAgregarCelular').on('click', function () {
+                loadForm('@Url.Action("CreatePartial", "Celular")', 'Crear Celular');
+                $("#ClienteCodigo").val('');
+            });
+
+            // Función para enviar el formulario genérico
+            $('#submitGenericForm').on('click', function () {
+                var form = $('#genericFormContainer').find('form');
+                $.ajax({
+                    url: form.attr('action'),
+                    method: 'POST',
+                    data: form.serialize(),
+                    success: function (data) {
+                        // Ocultar el modal después de guardar
+                        $('#genericModal').modal('hide');
+                        // Mostrar mensaje o realizar otras acciones si es necesario
+                        alert('Formulario guardado con éxito');
+                    },
+                    error: function (error) {
+                        console.error('Error al guardar el formulario:', error);
+                    }
+                });
+            });
+
+            // Sugerencia generico
+            function setupAutocomplete(inputSelector, hiddenInputSelector, buttonSelector, helpTextSelector, ajaxUrl, mapFunction) {
+                $(inputSelector).autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: ajaxUrl,
+                            data: { term: request.term },
+                            success: function (data) {
+                                if (data.length === 0) {
+                                    $(buttonSelector).show();
+                                    $(helpTextSelector).show();
+                                } else {
+                                    $(buttonSelector).hide();
+                                    $(helpTextSelector).hide();
+                                }
+                                response($.map(data, mapFunction));
+                            }
+                        });
+                    },
+                    select: function (event, ui) {
+                        $(hiddenInputSelector).val(ui.item.id);
+                        $(buttonSelector).hide();
+                        $(helpTextSelector).hide();
+                    },
+                    change: function (event, ui) {
+                        if (!ui.item) {
+                            $(buttonSelector).show();
+                            $(helpTextSelector).show();
+                        }
+                    }
+                });
+            }
+
+            // Configurar autocompletado genérico
+            //CLIENTE
+            setupAutocomplete(
+                "#ClienteDni",
+                "#IdCliente",
+                "#btnAgregarCliente",
+                "#dniHelp",
+                '@Url.Action("GetClientesByDni", "Cliente")',
+                function (item) {
+                    return {
+                        label: item.dni,
+                        value: item.dni,
+                        id: item.idCliente
+                    };
+                }
+            );
+            //CELULAR
+            // Configurar autocompletado genérico
+            setupAutocomplete(
+                "#CelularCodigo",
+                "#IdCelular",
+                "#btnAgregarCelular",
+                "#codigoHelp",
+                '@Url.Action("GetCelularesByCod", "Celular")',
+                function (item) {
+                    return {
+                        label: item.codigoProducto,
+                        value: item.codigoProducto,
+                        id: item.idCelular
+                    };
+                }
+            );
+            // Limpiar input al hacer clic en agregar cliente
+            $("#btnAgregarCliente").on('click', function () {
+                $("#ClienteDni").val('');
+            });
+            $("#btnAgregarCelular").on('click', function () {
+                $("#CelularCodigo").val('');
+            });
+        });
+    </script>
+}

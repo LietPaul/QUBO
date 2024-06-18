@@ -7,9 +7,9 @@ public partial class Arreglo
 {
     public long IdArreglo { get; set; }
 
-    public long IdCliente { get; set; }
+    public long? IdCliente { get; set; }
 
-    public long IdCelular { get; set; }
+    public long? IdCelular { get; set; }
 
     public string? Problema { get; set; }
 
@@ -17,7 +17,7 @@ public partial class Arreglo
 
     public DateTime? FechaEnt { get; set; }
 
-    public decimal? Seña { get; set; }
+    public decimal? Senia { get; set; }
 
     public decimal? Total { get; set; }
 
@@ -27,9 +27,9 @@ public partial class Arreglo
 
     public virtual ICollection<DetalleArreglo> DetalleArreglos { get; set; } = new List<DetalleArreglo>();
 
-    public virtual Celular IdCelularNavigation { get; set; } = null!;
+    public virtual Celular? IdCelularNavigation { get; set; }
 
-    public virtual Cliente IdClienteNavigation { get; set; } = null!;
+    public virtual Cliente? IdClienteNavigation { get; set; }
 
     public virtual Tecnico? IdTecnicoNavigation { get; set; }
 }

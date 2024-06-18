@@ -15,9 +15,9 @@ public partial class Parte
 
     public string? CodigoProducto { get; set; }
 
-    public long IdCelular { get; set; }
+    public long? IdCelular { get; set; }
 
     public virtual ICollection<DetalleArreglo> DetalleArreglos { get; set; } = new List<DetalleArreglo>();
 
-    public virtual Celular IdCelularNavigation { get; set; } = null!;
+    public virtual Celular? IdCelularNavigation { get; set; }
 }
