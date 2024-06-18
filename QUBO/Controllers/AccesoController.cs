@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QUBO.Models;
 using QUBO.ViewModels;
 
@@ -36,6 +37,25 @@ namespace QUBO.Controllers
             if(user.IdUsuario != 0) {return RedirectToAction("Login", "Acceso");}
             ViewData["Mensaje"] = "Error: No se pudo crear usuario.";
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM modelo) 
+        {
+            Usuario? finded_user = await _dbContext.Usuarios
+                                 .Where(u => u.NombreUsuario == modelo.usuario 
+                                 && u.Contrasenia == modelo.contrasenia).FirstOrDefaultAsync();
+            if (finded_user == null) 
+            {
+                ViewData["Mensaje"] = "Usuario o contraseña no encontrados";
+                return View();
+            }
+            return RedirectToAction("Index","Home");
         }
     }
 }

@@ -16,42 +16,37 @@
                     <div class="card-header">
                         Registrar
                     </div>
-                </div>
-                <div class="card-body">
+                    <div class="card-body">
 
-                    <form asp-controller="Acceso" asp-action="RegistrarUsuario" method="post">
-                        <div class="mb-3">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="rol" id="btntecnico" value="TECNICO" required asp-for="RolUsuario">
-                                <label class="form-check-label" for="btntecnico">TECNICO</label>
+                        <form asp-controller="Acceso" asp-action="RegistrarUsuario" method="post">
+                            <div class="mb-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="RolUsuario" id="btntecnico" value="TECNICO" required asp-for="RolUsuario">
+                                    <label class="form-check-label" for="btntecnico">TECNICO</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="RolUsuario" id="btnadmin" value="ADMINISTRADOR" required asp-for="RolUsuario">
+                                    <label class="form-check-label" for="btnadmin">ADMINISTRADOR</label>
+                                </div>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="rol" id="btnadmin" value="ADMINISTRADOR" required asp-for="RolUsuario">
-                                <label class="form-check-label" for="btnadmin">ADMINISTRADOR</label>
+                            <input class="form-control mb-3" type="text" placeholder="Nombre de usuario" required asp-for="NombreUsuario" />
+                            <input class="form-control mb-3" type="password" placeholder="Contraseña" required asp-for="Contrasenia" />
+                            <input class="form-control mb-3" type="password" placeholder="Confirmar contraseña" required asp-for="ConfimarContrasenia" />
+                            <div class="d-grid gap-2 mb-3">
+                                <button class="btn btn-primary" type="submit">Registrar usuario</button>
                             </div>
-                        </div>
-                        <input class="form-control mb-3" type="text" placeholder="Nombre de usuario" required asp-for="NombreUsuario" />
-                        <input class="form-control mb-3" type="password" placeholder="Contraseña" required asp-for="Contrasenia"/>
-                        <input class="form-control mb-3" type="password" placeholder="Confirmar contraseña" required asp-for="ConfimarContrasenia"/>
-                        <div class="d-grid gap-2 mb-3">
-                            <button class="btn btn-primary" type="submit">Registrar usuario</button>
-                        </div>
 
-                        @if(ViewData["Mensaje"] != null)
-                        {
-                            <div class="alert alert-danger" role="alert">
-                                @ViewData["Mensaje"]
-                            </div>
-                        }
-                        <a asp-controller="Acceso" asp-action="Login">Iniciar Sesion</a>
-                    </form>
-
+                            @if (ViewData["Mensaje"] != null)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    @ViewData["Mensaje"]
+                                </div>
+                            }
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-
-
-
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     </body>
