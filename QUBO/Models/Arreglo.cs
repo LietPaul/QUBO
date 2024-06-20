@@ -21,7 +21,7 @@ public partial class Arreglo
 
     public decimal? Total { get; set; }
 
-    public long? IdTecnico { get; set; }
+    public long? IdUsuario { get; set; }
 
     public string? Estado { get; set; }
 
@@ -31,5 +31,5 @@ public partial class Arreglo
 
     public virtual Cliente? IdClienteNavigation { get; set; }
 
-    public virtual Tecnico? IdTecnicoNavigation { get; set; }
+    public virtual Usuario? IdUsuarioNavigation { get; set; }
 }

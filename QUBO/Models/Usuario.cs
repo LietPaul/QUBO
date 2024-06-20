@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace QUBO.Models;
 
 public partial class Usuario
 {
-    [Key]
-    public int IdUsuario { get; set; }
+    public long IdUsuario { get; set; }
 
-    public string NombreUsuario { get; set; } = null!;
+    public string? Nombre { get; set; }
 
-    public string Contrasenia { get; set; } = null!;
+    public string? Contrasenia { get; set; }
 
     public string? RolUsuario { get; set; }
+
+    public string? Apellido { get; set; }
+
+    public string? Dni { get; set; }
+
+    public string? Telefono { get; set; }
+
+    public virtual ICollection<Arreglo> Arreglos { get; set; } = new List<Arreglo>();
 }

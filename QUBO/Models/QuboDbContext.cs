@@ -25,15 +25,13 @@ public partial class QuboDbContext : DbContext
 
     public virtual DbSet<Parte> Partes { get; set; }
 
-    public virtual DbSet<Tecnico> Tecnicos { get; set; }
-
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Arreglo>(entity =>
         {
-            entity.HasKey(e => e.IdArreglo).HasName("PK__Arreglo__1DA8764E8121F46D");
+            entity.HasKey(e => e.IdArreglo).HasName("PK__Arreglo__1DA8764E255C203C");
 
             entity.ToTable("Arreglo");
 
@@ -49,7 +47,7 @@ public partial class QuboDbContext : DbContext
                 .HasColumnName("fecha_ing");
             entity.Property(e => e.IdCelular).HasColumnName("id_celular");
             entity.Property(e => e.IdCliente).HasColumnName("id_cliente");
-            entity.Property(e => e.IdTecnico).HasColumnName("id_tecnico");
+            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
             entity.Property(e => e.Problema)
                 .HasMaxLength(500)
                 .HasColumnName("problema");
@@ -63,22 +61,22 @@ public partial class QuboDbContext : DbContext
             entity.HasOne(d => d.IdCelularNavigation).WithMany(p => p.Arreglos)
                 .HasForeignKey(d => d.IdCelular)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Arreglo__id_celu__18EBB532");
+                .HasConstraintName("FK__Arreglo__id_celu__367C1819");
 
             entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Arreglos)
                 .HasForeignKey(d => d.IdCliente)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Arreglo__id_clie__17F790F9");
+                .HasConstraintName("FK__Arreglo__id_clie__3587F3E0");
 
-            entity.HasOne(d => d.IdTecnicoNavigation).WithMany(p => p.Arreglos)
-                .HasForeignKey(d => d.IdTecnico)
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Arreglos)
+                .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Arreglo__id_tecn__19DFD96B");
+                .HasConstraintName("FK__Arreglo__id_usua__37703C52");
         });
 
         modelBuilder.Entity<Celular>(entity =>
         {
-            entity.HasKey(e => e.IdCelular).HasName("PK__Celular__3320C56C217FD7CD");
+            entity.HasKey(e => e.IdCelular).HasName("PK__Celular__3320C56C186E2B0D");
 
             entity.ToTable("Celular");
 
@@ -99,7 +97,7 @@ public partial class QuboDbContext : DbContext
 
         modelBuilder.Entity<Cliente>(entity =>
         {
-            entity.HasKey(e => e.IdCliente).HasName("PK__Cliente__677F38F5B8ECA420");
+            entity.HasKey(e => e.IdCliente).HasName("PK__Cliente__677F38F581FBE9E0");
 
             entity.ToTable("Cliente");
 
@@ -120,7 +118,7 @@ public partial class QuboDbContext : DbContext
 
         modelBuilder.Entity<DetalleArreglo>(entity =>
         {
-            entity.HasKey(e => e.IdDetalle).HasName("PK__DetalleA__4F1332DE77807204");
+            entity.HasKey(e => e.IdDetalle).HasName("PK__DetalleA__4F1332DE459F28E7");
 
             entity.ToTable("DetalleArreglo");
 
@@ -133,18 +131,17 @@ public partial class QuboDbContext : DbContext
 
             entity.HasOne(d => d.IdArregloNavigation).WithMany(p => p.DetalleArreglos)
                 .HasForeignKey(d => d.IdArreglo)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__DetalleAr__id_ar__1CBC4616");
+                .HasConstraintName("FK__DetalleAr__id_ar__3A4CA8FD");
 
             entity.HasOne(d => d.IdParteNavigation).WithMany(p => p.DetalleArreglos)
                 .HasForeignKey(d => d.IdParte)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__DetalleAr__id_pa__1DB06A4F");
+                .HasConstraintName("FK__DetalleAr__id_pa__3B40CD36");
         });
 
         modelBuilder.Entity<Parte>(entity =>
         {
-            entity.HasKey(e => e.IdPartes).HasName("PK__Partes__B7D95BF054A62057");
+            entity.HasKey(e => e.IdPartes).HasName("PK__Partes__B7D95BF0B7B82E6E");
 
             entity.Property(e => e.IdPartes).HasColumnName("id_partes");
             entity.Property(e => e.CodigoProducto)
@@ -164,42 +161,34 @@ public partial class QuboDbContext : DbContext
             entity.HasOne(d => d.IdCelularNavigation).WithMany(p => p.Partes)
                 .HasForeignKey(d => d.IdCelular)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Partes__id_celul__114A936A");
+                .HasConstraintName("FK__Partes__id_celul__2A164134");
         });
 
-        modelBuilder.Entity<Tecnico>(entity =>
+        modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdTecnico).HasName("PK__Tecnico__D55097379B5DAE38");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__4E3E04ADB1A4B92A");
 
-            entity.ToTable("Tecnico");
+            entity.ToTable("Usuario");
 
-            entity.Property(e => e.IdTecnico).HasColumnName("id_tecnico");
+            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+            entity.Property(e => e.Apellido)
+                .HasMaxLength(50)
+                .HasColumnName("apellido");
+            entity.Property(e => e.Contrasenia)
+                .HasMaxLength(256)
+                .HasColumnName("contrasenia");
             entity.Property(e => e.Dni)
                 .HasMaxLength(50)
                 .HasColumnName("dni");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .HasColumnName("nombre");
-        });
-
-        modelBuilder.Entity<Usuario>(entity =>
-        {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__4E3E04AD083D13A0");
-
-            entity.ToTable("Usuario");
-
-            entity.Property(e => e.IdUsuario)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id_usuario");
-            entity.Property(e => e.Contrasenia)
-                .HasMaxLength(256)
-                .HasColumnName("contrasenia");
-            entity.Property(e => e.NombreUsuario)
-                .HasMaxLength(50)
-                .HasColumnName("nombre_usuario");
             entity.Property(e => e.RolUsuario)
                 .HasMaxLength(50)
                 .HasColumnName("rol_usuario");
+            entity.Property(e => e.Telefono)
+                .HasMaxLength(15)
+                .HasColumnName("telefono");
         });
 
         OnModelCreatingPartial(modelBuilder);

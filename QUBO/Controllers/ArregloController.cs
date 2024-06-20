@@ -21,7 +21,7 @@ namespace QUBO.Controllers
         // GET: Arreglo
         public async Task<IActionResult> Index()
         {
-            var quboDbContext = _context.Arreglos.Include(a => a.IdCelularNavigation).Include(a => a.IdClienteNavigation).Include(a => a.IdTecnicoNavigation);
+            var quboDbContext = _context.Arreglos.Include(a => a.IdCelularNavigation).Include(a => a.IdClienteNavigation).Include(a => a.IdUsuarioNavigation);
             return View(await quboDbContext.ToListAsync());
         }
         
@@ -36,7 +36,7 @@ namespace QUBO.Controllers
             var arreglo = await _context.Arreglos
                 .Include(a => a.IdCelularNavigation)
                 .Include(a => a.IdClienteNavigation)
-                .Include(a => a.IdTecnicoNavigation)
+                .Include(a => a.IdUsuarioNavigation)
                 .FirstOrDefaultAsync(m => m.IdArreglo == id);
             if (arreglo == null)
             {
@@ -51,7 +51,7 @@ namespace QUBO.Controllers
         {
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular");
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente");
-            ViewData["IdTecnico"] = new SelectList(_context.Tecnicos, "IdTecnico", "Nombre");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "Nombre");
             return View();
         }
         
@@ -60,7 +60,7 @@ namespace QUBO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdArreglo,IdCliente,IdCelular,Problema,FechaIng,FechaEnt,Senia,Total,IdTecnico,Estado")] Arreglo arreglo)
+        public async Task<IActionResult> Create([Bind("IdArreglo,IdCliente,IdCelular,Problema,FechaIng,FechaEnt,Senia,Total,IdUsuario,Estado")] Arreglo arreglo)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +70,7 @@ namespace QUBO.Controllers
             }
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", arreglo.IdCelular);
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente", arreglo.IdCliente);
-            ViewData["IdTecnico"] = new SelectList(_context.Tecnicos, "IdTecnico", "IdTecnico", arreglo.IdTecnico);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", arreglo.IdUsuario);
             return View(arreglo);
         }
 
@@ -89,7 +89,7 @@ namespace QUBO.Controllers
             }
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", arreglo.IdCelular);
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente", arreglo.IdCliente);
-            ViewData["IdTecnico"] = new SelectList(_context.Tecnicos, "IdTecnico", "IdTecnico", arreglo.IdTecnico);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", arreglo.IdUsuario);
             return View(arreglo);
         }
 
@@ -98,7 +98,7 @@ namespace QUBO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("IdArreglo,IdCliente,IdCelular,Problema,FechaIng,FechaEnt,Senia,Total,IdTecnico,Estado")] Arreglo arreglo)
+        public async Task<IActionResult> Edit(long id, [Bind("IdArreglo,IdCliente,IdCelular,Problema,FechaIng,FechaEnt,Senia,Total,IdUsuario,Estado")] Arreglo arreglo)
         {
             if (id != arreglo.IdArreglo)
             {
@@ -127,7 +127,7 @@ namespace QUBO.Controllers
             }
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", arreglo.IdCelular);
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente", arreglo.IdCliente);
-            ViewData["IdTecnico"] = new SelectList(_context.Tecnicos, "IdTecnico", "IdTecnico", arreglo.IdTecnico);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", arreglo.IdUsuario);
             return View(arreglo);
         }
 
@@ -142,7 +142,7 @@ namespace QUBO.Controllers
             var arreglo = await _context.Arreglos
                 .Include(a => a.IdCelularNavigation)
                 .Include(a => a.IdClienteNavigation)
-                .Include(a => a.IdTecnicoNavigation)
+                .Include(a => a.IdUsuarioNavigation)
                 .FirstOrDefaultAsync(m => m.IdArreglo == id);
             if (arreglo == null)
             {
