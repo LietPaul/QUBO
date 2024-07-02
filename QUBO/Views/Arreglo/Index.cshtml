@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-dark table-striped table-bordered">
     <thead>
         <tr>
             <th>
@@ -31,10 +31,10 @@
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCelularNavigation)
+                Codigo Producto
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdClienteNavigation)
+                Dni Cliente
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdUsuarioNavigation)
@@ -64,10 +64,10 @@
                 @Html.DisplayFor(modelItem => item.Estado)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCelularNavigation!.IdCelular)
+                @Html.DisplayFor(modelItem => item.IdCelularNavigation!.CodigoProducto)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdClienteNavigation!.IdCliente)
+                @Html.DisplayFor(modelItem => item.IdClienteNavigation!.Dni)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdUsuarioNavigation!.IdUsuario)

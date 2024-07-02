@@ -88,12 +88,13 @@ namespace QUBO.Controllers
                 return NotFound();
             }
 
-            // Cargar los valores de ClienteDni y CelularCodigo
+            // Cargar los valores de ClienteDni y CelularCodigo VER SI SE PUEDE HACER CON RAZOR
             var cliente = await _context.Clientes.FindAsync(arreglo.IdCliente);
             var celular = await _context.Celulars.FindAsync(arreglo.IdCelular);
 
             ViewData["ClienteDni"] = cliente?.Dni ?? string.Empty;
             ViewData["CelularCodigo"] = celular?.CodigoProducto ?? string.Empty;
+            //FIN DEL BLOQUE ANTERIOR
 
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", arreglo.IdCelular);
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente", arreglo.IdCliente);
