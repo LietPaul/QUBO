@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -87,6 +87,14 @@ namespace QUBO.Controllers
             {
                 return NotFound();
             }
+
+            // Cargar los valores de ClienteDni y CelularCodigo
+            var cliente = await _context.Clientes.FindAsync(arreglo.IdCliente);
+            var celular = await _context.Celulars.FindAsync(arreglo.IdCelular);
+
+            ViewData["ClienteDni"] = cliente?.Dni ?? string.Empty;
+            ViewData["CelularCodigo"] = celular?.CodigoProducto ?? string.Empty;
+
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", arreglo.IdCelular);
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente", arreglo.IdCliente);
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", arreglo.IdUsuario);
