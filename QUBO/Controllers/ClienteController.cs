@@ -24,7 +24,7 @@ namespace QUBO.Controllers
         public async Task<JsonResult> GetClientesByDni(string term)
         {
             var clientes = await _context.Clientes
-                .Where(c => c.Dni.Contains(term))
+                .Where(c => c.Dni!.Contains(term))
                 .Select(c => new { c.IdCliente, c.Dni })
                 .ToListAsync();
 

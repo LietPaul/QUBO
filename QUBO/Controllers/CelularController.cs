@@ -22,7 +22,7 @@ namespace QUBO.Controllers
         public async Task<JsonResult> GetCelularesByCod(string term)
         {
             var celulares = await _context.Celulars
-                .Where(c => c.CodigoProducto.Contains(term))
+                .Where(c => c.CodigoProducto!.Contains(term))
                 .Select(c => new { c.IdCelular, c.CodigoProducto })
                 .ToListAsync();
 

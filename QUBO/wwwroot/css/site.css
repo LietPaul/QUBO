@@ -20,3 +20,27 @@ html {
 body {
   margin-bottom: 60px;
 }
+/*Mostrar y ocultar contraseña*/
+.password-container {
+    position: relative;
+}
+
+.password-container input[type="password"],
+.password-container input[type="text"] {
+    width: 100%;
+    padding-right: 2.5rem; /* espacio para el icono */
+}
+
+.password-container .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa; /* color del icono */
+}
+
+.password-container .toggle-password:hover {
+    color: #000; /* color del icono al pasar el ratón por encima */
+}
+/*Mostrar y ocultar contraseña*/

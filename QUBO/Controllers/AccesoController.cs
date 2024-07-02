@@ -31,10 +31,13 @@ namespace QUBO.Controllers
 
             Usuario user = new Usuario()
             {
-                NombreUsuario = modelo.NombreUsuario,
+                Nombre = modelo.Nombre!.ToUpper(),
+                Apellido = modelo.Apellido!.ToUpper(),
+                Dni = modelo.DNI,
+                Telefono = modelo.Telefono,
                 RolUsuario = modelo.RolUsuario
             };
-            user.Contrasenia = _passwordHasher.HashPassword(user, modelo.Contrasenia);
+            user.Contrasenia = _passwordHasher.HashPassword(user, modelo.Contrasenia!);
 
             await _dbContext.Usuarios.AddAsync(user);
             await _dbContext.SaveChangesAsync();
@@ -57,14 +60,14 @@ namespace QUBO.Controllers
                 return View();
             }
             Usuario? findedUser = await _dbContext.Usuarios
-                                 .Where(u => u.NombreUsuario == modelo.usuario).FirstOrDefaultAsync();
+                                 .Where(u => u.Dni == modelo.usuario).FirstOrDefaultAsync();
             if (findedUser == null)
             {
                 ViewData["Mensaje"] = "Usuario no encontrado";
                 return View();
             }
-            
-            var result = _passwordHasher.VerifyHashedPassword(findedUser, findedUser.Contrasenia, modelo.contrasenia);
+
+            var result = _passwordHasher.VerifyHashedPassword(findedUser, findedUser.Contrasenia!, modelo.contrasenia);
             if (result == PasswordVerificationResult.Failed)
             {
                 ViewData["Mensaje"] = "Contraseña incorrecta";

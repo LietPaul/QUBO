@@ -64,13 +64,13 @@
                 @Html.DisplayFor(modelItem => item.Estado)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCelularNavigation.IdCelular)
+                @Html.DisplayFor(modelItem => item.IdCelularNavigation!.IdCelular)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdClienteNavigation.IdCliente)
+                @Html.DisplayFor(modelItem => item.IdClienteNavigation!.IdCliente)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.IdUsuario)
+                @Html.DisplayFor(modelItem => item.IdUsuarioNavigation!.IdUsuario)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdArreglo">Edit</a> |

@@ -1,12 +1,11 @@
-﻿@model QUBO.ViewModels.UsuarioVM
-@{
-    Layout = null;
-}
+﻿@model QUBO.ViewModels.UsuarioVM;
 <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Registrar</title>
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     </head>
     <body>
 
@@ -25,12 +24,23 @@
                                     <label class="form-check-label" for="btntecnico">TECNICO</label>
                                 </div>
                                 <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="RolUsuario" id="btnVendedor" value="VENDEDOR" required asp-for="RolUsuario">
+                                    <label class="form-check-label" for="btnVendedor">VENDEDOR</label>
+                                </div>
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="RolUsuario" id="btnadmin" value="ADMINISTRADOR" required asp-for="RolUsuario">
                                     <label class="form-check-label" for="btnadmin">ADMINISTRADOR</label>
                                 </div>
                             </div>
-                            <input class="form-control mb-3" type="text" placeholder="Nombre de usuario" required asp-for="NombreUsuario" />
-                            <input class="form-control mb-3" type="password" placeholder="Contraseña" required asp-for="Contrasenia" />
+                            <input class="form-control mb-3" type="text" placeholder="Nombre" required asp-for="Nombre" />
+                            <input class="form-control mb-3" type="text" placeholder="Apellido" required asp-for="Apellido" />
+                            <input class="form-control mb-3" type="text" placeholder="Documento" required asp-for="DNI" />
+                            <input class="form-control mb-3" type="text" placeholder="Telefono" required asp-for="Telefono" />
+                            <div class="password-container">
+                                <input class="form-control mb-3" id="campoContrasenia" type="password" placeholder="Contraseña" required asp-for="Contrasenia" />
+                                <i class="fa fa-eye toggle-password" id="MostrarOcultarCon"></i>
+                            </div>
+                            
                             <input class="form-control mb-3" type="password" placeholder="Confirmar contraseña" required asp-for="ConfimarContrasenia" />
                             <div class="d-grid gap-2 mb-3">
                                 <button class="btn btn-primary" type="submit">Registrar usuario</button>
@@ -49,5 +59,7 @@
         </div>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/MostrarOcultarCon.js"></script>
+        
     </body>
     </html>
