@@ -122,125 +122,142 @@
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
 
     <script>
-        $(function () {
-            // Función para cargar formularios en el modal genérico
-            function loadForm(url, modalTitle) {
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function (data) {
-                        $('#genericFormContainer').html(data);
-                        $('#genericModalLabel').text(modalTitle);
-                        $('#genericModal').modal('show');
-                    },
-                    error: function (error) {
-                        console.error('Error al cargar el formulario:', error);
-                    }
-                });
-            }
-
-            // Mostrar modal con formulario de cliente
-            $('#btnAgregarCliente').on('click', function () {
-                loadForm('@Url.Action("CreatePartial", "Cliente")', 'Crear Cliente');
-                $("#ClienteDni").val('');
-            });
-            // Mostrar modal con formulario de cliente
-            $('#btnAgregarCelular').on('click', function () {
-                loadForm('@Url.Action("CreatePartial", "Celular")', 'Crear Celular');
-                $("#ClienteCodigo").val('');
-            });
-
-            // Función para enviar el formulario genérico
-            $('#submitGenericForm').on('click', function () {
-                var form = $('#genericFormContainer').find('form');
-                $.ajax({
-                    url: form.attr('action'),
-                    method: 'POST',
-                    data: form.serialize(),
-                    success: function (data) {
-                        // Ocultar el modal después de guardar
-                        $('#genericModal').modal('hide');
-                        // Mostrar mensaje o realizar otras acciones si es necesario
-                        alert('Formulario guardado con éxito');
-                    },
-                    error: function (error) {
-                        console.error('Error al guardar el formulario:', error);
-                    }
-                });
-            });
-
-            // Sugerencia generico
-            function setupAutocomplete(inputSelector, hiddenInputSelector, buttonSelector, helpTextSelector, ajaxUrl, mapFunction) {
-                $(inputSelector).autocomplete({
-                    source: function (request, response) {
-                        $.ajax({
-                            url: ajaxUrl,
-                            data: { term: request.term },
-                            success: function (data) {
-                                if (data.length === 0) {
-                                    $(buttonSelector).show();
-                                    $(helpTextSelector).show();
-                                } else {
-                                    $(buttonSelector).hide();
-                                    $(helpTextSelector).hide();
-                                }
-                                response($.map(data, mapFunction));
-                            }
-                        });
-                    },
-                    select: function (event, ui) {
-                        $(hiddenInputSelector).val(ui.item.id);
-                        $(buttonSelector).hide();
-                        $(helpTextSelector).hide();
-                    },
-                    change: function (event, ui) {
-                        if (!ui.item) {
-                            $(buttonSelector).show();
-                            $(helpTextSelector).show();
-                        }
-                    }
-                });
-            }
-
-            // Configurar autocompletado genérico
-            //CLIENTE
-            setupAutocomplete(
-                "#ClienteDni",
-                "#IdCliente",
-                "#btnAgregarCliente",
-                "#dniHelp",
-                '@Url.Action("GetClientesByDni", "Cliente")',
-                function (item) {
-                    return {
-                        label: item.dni,
-                        value: item.dni,
-                        id: item.idCliente
-                    };
+    $(function () {
+        // Función para cargar formularios en el modal genérico
+        function loadForm(url, modalTitle) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    $('#genericFormContainer').html(data);
+                    $('#genericModalLabel').text(modalTitle);
+                    $('#genericModal').modal('show');
+                },
+                error: function (error) {
+                    console.error('Error al cargar el formulario:', error);
                 }
-            );
-            //CELULAR
-            // Configurar autocompletado genérico
-            setupAutocomplete(
-                "#CelularCodigo",
-                "#IdCelular",
-                "#btnAgregarCelular",
-                "#codigoHelp",
-                '@Url.Action("GetCelularesByCod", "Celular")',
-                function (item) {
-                    return {
-                        label: item.codigoProducto,
-                        value: item.codigoProducto,
-                        id: item.idCelular
-                    };
-                }
-            );
-            // Limpiar input al hacer clic en agregar cliente
-            $("#btnAgregarCliente").on('click', function () {
-                $("#ClienteDni").val('');
             });
-            $("#btnAgregarCelular").on('click', function () {
-                $("#CelularCodigo").val('');
+        }
+
+        // Mostrar modal con formulario de cliente
+        $('#btnAgregarCliente').on('click', function () {
+            loadForm('@Url.Action("CreatePartial", "Cliente")', 'Crear Cliente');
+            $("#ClienteDni").val('');
+        });
+        
+        // Mostrar modal con formulario de celular
+        $('#btnAgregarCelular').on('click', function () {
+            loadForm('@Url.Action("CreatePartial", "Celular")', 'Crear Celular');
+            $("#ClienteCodigo").val('');
+        });
+
+        // Función para enviar el formulario genérico
+        $('#submitGenericForm').on('click', function () {
+            var form = $('#genericFormContainer').find('form');
+            $.ajax({
+                url: form.attr('action'),
+                method: 'POST',
+                data: form.serialize(),
+                success: function (data) {
+                    // Ocultar el modal después de guardar
+                    $('#genericModal').modal('hide');
+                    // Mostrar mensaje o realizar otras acciones si es necesario
+                    alert('Formulario guardado con éxito');
+                },
+                error: function (error) {
+                    console.error('Error al guardar el formulario:', error);
+                }
             });
         });
-    </script>
+
+        // Sugerencia genérica
+        function setupAutocomplete(inputSelector, hiddenInputSelector, buttonSelector, helpTextSelector, ajaxUrl, mapFunction) {
+            $(inputSelector).autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: ajaxUrl,
+                        data: { term: request.term },
+                        success: function (data) {
+                            if (data.length === 0) {
+                                $(buttonSelector).show();
+                                $(helpTextSelector).show();
+                            } else {
+                                $(buttonSelector).hide();
+                                $(helpTextSelector).hide();
+                            }
+                            response($.map(data, mapFunction));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $(hiddenInputSelector).val(ui.item.id);
+                    $(buttonSelector).hide();
+                    $(helpTextSelector).hide();
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        var currentInput = $(inputSelector).val();
+                        $.ajax({
+                            url: ajaxUrl,
+                            data: { term: currentInput },
+                            success: function (data) {
+                                var match = data.find(item => item.dni === currentInput || item.codigoProducto === currentInput);
+                                if (match) {
+                                    $(hiddenInputSelector).val(match.idCliente || match.idCelular);
+                                    $(buttonSelector).hide();
+                                    $(helpTextSelector).hide();
+                                } else {
+                                    $(hiddenInputSelector).val('');
+                                    $(buttonSelector).show();
+                                    $(helpTextSelector).show();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        // Configurar autocompletado genérico
+        //CLIENTE
+        setupAutocomplete(
+            "#ClienteDni",
+            "#IdCliente",
+            "#btnAgregarCliente",
+            "#dniHelp",
+            '@Url.Action("GetClientesByDni", "Cliente")',
+            function (item) {
+                return {
+                    label: item.dni,
+                    value: item.dni,
+                    id: item.idCliente
+                };
+            }
+        );
+
+        //CELULAR
+        setupAutocomplete(
+            "#CelularCodigo",
+            "#IdCelular",
+            "#btnAgregarCelular",
+            "#codigoHelp",
+            '@Url.Action("GetCelularesByCod", "Celular")',
+            function (item) {
+                return {
+                    label: item.codigoProducto,
+                    value: item.codigoProducto,
+                    id: item.idCelular
+                };
+            }
+        );
+
+        // Limpiar input al hacer clic en agregar cliente
+        $("#btnAgregarCliente").on('click', function () {
+            $("#ClienteDni").val('');
+        });
+        $("#btnAgregarCelular").on('click', function () {
+            $("#CelularCodigo").val('');
+        });
+    });
+</script>
 }

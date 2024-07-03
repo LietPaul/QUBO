@@ -81,7 +81,7 @@
             <input type="hidden" id="HiddenCelularCodigo" name="HiddenCelularCodigo" value="@ViewData["CelularCodigo"]" />
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -142,7 +142,8 @@
                 loadForm('@Url.Action("CreatePartial", "Cliente")', 'Crear Cliente');
                 $("#ClienteDni").val('');
             });
-            // Mostrar modal con formulario de cliente
+
+            // Mostrar modal con formulario de celular
             $('#btnAgregarCelular').on('click', function () {
                 loadForm('@Url.Action("CreatePartial", "Celular")', 'Crear Celular');
                 $("#ClienteCodigo").val('');
@@ -167,7 +168,7 @@
                 });
             });
 
-            // Sugerencia generico
+            // Sugerencia genérica
             function setupAutocomplete(inputSelector, hiddenInputSelector, buttonSelector, helpTextSelector, ajaxUrl, mapFunction) {
                 $(inputSelector).autocomplete({
                     source: function (request, response) {
@@ -193,8 +194,23 @@
                     },
                     change: function (event, ui) {
                         if (!ui.item) {
-                            $(buttonSelector).show();
-                            $(helpTextSelector).show();
+                            var currentInput = $(inputSelector).val();
+                            $.ajax({
+                                url: ajaxUrl,
+                                data: { term: currentInput },
+                                success: function (data) {
+                                    var match = data.find(item => item.dni === currentInput || item.codigoProducto === currentInput);
+                                    if (match) {
+                                        $(hiddenInputSelector).val(match.idCliente || match.idCelular);
+                                        $(buttonSelector).hide();
+                                        $(helpTextSelector).hide();
+                                    } else {
+                                        $(hiddenInputSelector).val('');
+                                        $(buttonSelector).show();
+                                        $(helpTextSelector).show();
+                                    }
+                                }
+                            });
                         }
                     }
                 });
@@ -216,8 +232,8 @@
                     };
                 }
             );
+
             //CELULAR
-            // Configurar autocompletado genérico
             setupAutocomplete(
                 "#CelularCodigo",
                 "#IdCelular",
@@ -232,14 +248,64 @@
                     };
                 }
             );
-            /*
+
             // Limpiar input al hacer clic en agregar cliente
             $("#btnAgregarCliente").on('click', function () {
                 $("#ClienteDni").val('');
             });
             $("#btnAgregarCelular").on('click', function () {
                 $("#CelularCodigo").val('');
-            });*/
+            });
+
+            // Función genérica para comprobar inputs al cargarse la página
+            function comprobarInput(inputSelector, hiddenInputSelector, buttonSelector, helpTextSelector, ajaxUrl, findFunction) {
+                var inputValue = $(inputSelector).val();
+                if (inputValue) {
+                    $.ajax({
+                        url: ajaxUrl,
+                        data: { term: inputValue },
+                        success: function (data) {
+                            var match = data.find(findFunction);
+                            if (match) {
+                                $(hiddenInputSelector).val(match.idCliente || match.idCelular);
+                                $(buttonSelector).hide();
+                                $(helpTextSelector).hide();
+                            } else {
+                                $(hiddenInputSelector).val('');
+                                $(buttonSelector).show();
+                                $(helpTextSelector).show();
+                            }
+                        },
+                        error: function (error) {
+                            console.error('Error al comprobar el input:', error);
+                        }
+                    });
+                }
+            }
+
+            // Comprobar inputs al cargarse la página
+            function comprobarInputsAlCargar() {
+                comprobarInput(
+                    "#ClienteDni",
+                    "#IdCliente",
+                    "#btnAgregarCliente",
+                    "#dniHelp",
+                    '@Url.Action("GetClientesByDni", "Cliente")',
+                    function (item) { return item.dni === $("#ClienteDni").val(); }
+                );
+
+                comprobarInput(
+                    "#CelularCodigo",
+                    "#IdCelular",
+                    "#btnAgregarCelular",
+                    "#codigoHelp",
+                    '@Url.Action("GetCelularesByCod", "Celular")',
+                    function (item) { return item.codigoProducto === $("#CelularCodigo").val(); }
+                );
+            }
+
+            // Llamar a la función de comprobación al cargarse la página
+            comprobarInputsAlCargar();
         });
     </script>
 }
