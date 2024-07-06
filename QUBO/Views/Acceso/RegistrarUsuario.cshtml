@@ -48,9 +48,19 @@
 
                             @if (ViewData["Mensaje"] != null)
                             {
-                                <div class="alert alert-danger" role="alert">
-                                    @ViewData["Mensaje"]
-                                </div>
+                                
+                                @if (ViewData["Mensaje"]!.ToString() == "Usuario creado.")
+                                {
+                                    <div class="alert alert-success" role="alert">
+                                        @ViewData["Mensaje"]
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        @ViewData["Mensaje"]
+                                    </div>
+                                }
                             }
                         </form>
                     </div>

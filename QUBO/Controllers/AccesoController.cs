@@ -29,6 +29,13 @@ namespace QUBO.Controllers
                 return View();
             }
 
+            var usuarioExistente = await _dbContext.Usuarios.FirstOrDefaultAsync(u => u.Dni == modelo.DNI);
+            if (usuarioExistente != null)
+            {
+                ViewData["Mensaje"] = "Error: Ya existe un usuario con el mismo DNI.";
+                return View();
+            }
+
             Usuario user = new Usuario()
             {
                 Nombre = modelo.Nombre!.ToUpper(),
@@ -41,8 +48,8 @@ namespace QUBO.Controllers
 
             await _dbContext.Usuarios.AddAsync(user);
             await _dbContext.SaveChangesAsync();
-            if (user.IdUsuario != 0) { return RedirectToAction("Login", "Acceso"); }
-            ViewData["Mensaje"] = "Error: No se pudo crear usuario.";
+            if (user.IdUsuario != 0) { ViewData["Mensaje"] = "Usuario creado."; }
+            else { ViewData["Mensaje"] = "Error: No se pudo crear usuario."; }
             return View();
         }
 

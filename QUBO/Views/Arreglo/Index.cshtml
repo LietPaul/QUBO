@@ -4,25 +4,25 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Historial de pedidos</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Agregar <i class="bi bi-plus-circle-fill"></i></a>
 </p>
-<table class="table table-dark table-striped table-bordered">
+<table class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Problema)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaIng)
+                Ingreso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaEnt)
+                Entrega
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Senia)
+                Seña
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Total)
@@ -37,7 +37,7 @@
                 Dni Cliente
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdUsuarioNavigation)
+                Tecnico
             </th>
             <th></th>
         </tr>
@@ -49,16 +49,16 @@
                 @Html.DisplayFor(modelItem => item.Problema)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaIng)
+                @string.Format("{0:dd/MM/yyyy}", item.FechaIng)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaEnt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Senia)
+                @string.Format("{0:C}", item.Senia)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Total)
+                @string.Format("{0:C}", item.Total)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Estado)
@@ -70,12 +70,19 @@
                 @Html.DisplayFor(modelItem => item.IdClienteNavigation!.Dni)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdUsuarioNavigation!.IdUsuario)
+                @Html.DisplayFor(modelItem => item.IdUsuarioNavigation!.Nombre)
+                @Html.DisplayFor(modelItem => item.IdUsuarioNavigation!.Apellido)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdArreglo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdArreglo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdArreglo">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.IdArreglo" class="btn btn-success" data-bs-toggle="tooltip" title="Editar">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.IdArreglo" class="btn btn-primary" data-bs-toggle="tooltip" title="Detalles">
+                        <i class="bi bi-info-square"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.IdArreglo" class="btn btn-danger" data-bs-toggle="tooltip" title="Eliminar">
+                        <i class="bi bi-x-square"></i>
+                    </a>
             </td>
         </tr>
 }
