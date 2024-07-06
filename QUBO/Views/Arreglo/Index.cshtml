@@ -52,7 +52,7 @@
                 @string.Format("{0:dd/MM/yyyy}", item.FechaIng)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaEnt)
+                @string.Format("{0:dd/MM/yyyy}", item.FechaEnt)
             </td>
             <td>
                 @string.Format("{0:C}", item.Senia)
@@ -74,15 +74,15 @@
                 @Html.DisplayFor(modelItem => item.IdUsuarioNavigation!.Apellido)
             </td>
             <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdArreglo" class="btn btn-success" data-bs-toggle="tooltip" title="Editar">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
-                    <a asp-action="Details" asp-route-id="@item.IdArreglo" class="btn btn-primary" data-bs-toggle="tooltip" title="Detalles">
-                        <i class="bi bi-info-square"></i>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@item.IdArreglo" class="btn btn-danger" data-bs-toggle="tooltip" title="Eliminar">
-                        <i class="bi bi-x-square"></i>
-                    </a>
+                <a asp-action="Edit" asp-route-id="@item.IdArreglo" class="btn btn-success" data-bs-toggle="tooltip" title="Editar">
+                   <i class="bi bi-pencil-square"></i>
+                </a>
+                <a asp-action="Details" asp-route-id="@item.IdArreglo" class="btn btn-primary" data-bs-toggle="tooltip" title="Detalles">
+                   <i class="bi bi-info-square"></i>
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.IdArreglo" class="btn btn-danger" data-bs-toggle="tooltip" title="Eliminar">
+                   <i class="bi bi-x-square"></i>
+                </a>
             </td>
         </tr>
 }
