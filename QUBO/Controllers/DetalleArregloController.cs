@@ -17,14 +17,30 @@ namespace QUBO.Controllers
         {
             _context = context;
         }
-
+        /*
         // GET: DetalleArreglo
         public async Task<IActionResult> Index()
         {
             var quboDbContext = _context.DetalleArreglos.Include(d => d.IdArregloNavigation).Include(d => d.IdParteNavigation);
             return View(await quboDbContext.ToListAsync());
         }
+        */
+        // GET: DetalleArreglo
+        public async Task<IActionResult> Index(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var quboDbContext = _context.DetalleArreglos
+                .Include(d => d.IdArregloNavigation)
+                .Include(d => d.IdParteNavigation)
+                .Where(d => d.IdArregloNavigation!.IdArreglo == id); // Accede a la clave primaria de Arreglo
+
+            ViewBag.IdArreglo = id;
+            return View(await quboDbContext.ToListAsync());
+        }
         // GET: DetalleArreglo/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -46,9 +62,9 @@ namespace QUBO.Controllers
         }
 
         // GET: DetalleArreglo/Create
-        public IActionResult Create()
+        public IActionResult Create(long? id)
         {
-            ViewData["IdArreglo"] = new SelectList(_context.Arreglos, "IdArreglo", "IdArreglo");
+            ViewBag.IdArreglo = id;
             ViewData["IdParte"] = new SelectList(_context.Partes, "IdPartes", "IdPartes");
             return View();
         }
@@ -64,7 +80,8 @@ namespace QUBO.Controllers
             {
                 _context.Add(detalleArreglo);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = detalleArreglo.IdArreglo }); // Redirigir a la vista de detalles del idArreglo
             }
             ViewData["IdArreglo"] = new SelectList(_context.Arreglos, "IdArreglo", "IdArreglo", detalleArreglo.IdArreglo);
             ViewData["IdParte"] = new SelectList(_context.Partes, "IdPartes", "IdPartes", detalleArreglo.IdParte);
@@ -119,7 +136,7 @@ namespace QUBO.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = detalleArreglo.IdArreglo }); // Redirigir a la vista de detalles del idArreglo
             }
             ViewData["IdArreglo"] = new SelectList(_context.Arreglos, "IdArreglo", "IdArreglo", detalleArreglo.IdArreglo);
             ViewData["IdParte"] = new SelectList(_context.Partes, "IdPartes", "IdPartes", detalleArreglo.IdParte);
@@ -158,7 +175,7 @@ namespace QUBO.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", new { id }); // Redirigir a la vista de detalles del idArreglo
         }
 
         private bool DetalleArregloExists(long id)
