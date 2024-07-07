@@ -7,19 +7,16 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-route-id="@ViewBag.IdArreglo">Create New</a>
 </p>
-<table class="table">
+<table class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>
+                Parte
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdArregloNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdParteNavigation)
             </th>
             <th></th>
         </tr>
@@ -28,19 +25,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdArregloNavigation!.IdArreglo)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.IdParteNavigation!.IdPartes)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdDetalle">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdDetalle">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdDetalle">Delete</a>
+                @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdDetalle" class="btn btn-success" data-bs-toggle="tooltip" title="Editar">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.IdDetalle" class="btn btn-primary" data-bs-toggle="tooltip" title="Detalles">
+                        <i class="bi bi-info-square"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.IdDetalle" class="btn btn-danger" data-bs-toggle="tooltip" title="Eliminar">
+                        <i class="bi bi-x-square"></i>
+                    </a>
+                </td>
         </tr>
 }
     </tbody>

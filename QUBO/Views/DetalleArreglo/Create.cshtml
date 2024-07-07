@@ -12,10 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdArreglo" class="control-label"></label>
-                <select asp-for="IdArreglo" class ="form-control" asp-items="ViewBag.IdArreglo"></select>
-            </div>
+            <input type="hidden" asp-for="IdArreglo" value="@ViewBag.IdArreglo" />
             <div class="form-group">
                 <label asp-for="IdParte" class="control-label"></label>
                 <select asp-for="IdParte" class ="form-control" asp-items="ViewBag.IdParte"></select>
@@ -33,7 +30,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-id="@ViewBag.IdArreglo">Back to List</a>
 </div>
 
 @section Scripts {
