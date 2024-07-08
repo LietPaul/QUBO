@@ -4,23 +4,18 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Control de usuarios</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Registrar Usuario <i class="bi bi-plus-circle-fill"></i></a>
 </p>
-<table class="table">
+<table class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contrasenia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RolUsuario)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.Apellido)
             </th>
@@ -29,6 +24,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                Rol
             </th>
             <th></th>
         </tr>
@@ -39,12 +37,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contrasenia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RolUsuario)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Apellido)
             </td>
@@ -55,9 +48,18 @@
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdUsuario">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdUsuario">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdUsuario">Delete</a>
+                @Html.DisplayFor(modelItem => item.RolUsuario)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdUsuario" class="btn btn-success" data-bs-toggle="tooltip" title="Editar">
+                   <i class="bi bi-pencil-square"></i>
+                </a>
+                <a asp-action="Details" asp-route-id="@item.IdUsuario" class="btn btn-primary" data-bs-toggle="tooltip" title="Detalles">
+                   <i class="bi bi-info-square"></i>
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.IdUsuario" class="btn btn-danger" data-bs-toggle="tooltip" title="Eliminar">
+                   <i class="bi bi-x-square"></i>
+                </a>
             </td>
         </tr>
 }
