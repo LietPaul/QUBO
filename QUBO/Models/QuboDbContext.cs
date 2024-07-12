@@ -131,6 +131,7 @@ public partial class QuboDbContext : DbContext
 
             entity.HasOne(d => d.IdArregloNavigation).WithMany(p => p.DetalleArreglos)
                 .HasForeignKey(d => d.IdArreglo)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK__DetalleAr__id_ar__3A4CA8FD");
 
             entity.HasOne(d => d.IdParteNavigation).WithMany(p => p.DetalleArreglos)

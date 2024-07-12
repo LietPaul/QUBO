@@ -9,23 +9,23 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Modelo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrecioUsd)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.CodigoProducto)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCelularNavigation)
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Modelo)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioUsd)
+            </th>
+            <th>
+                Modelo Cel.
             </th>
             <th></th>
         </tr>
@@ -34,25 +34,31 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
+                @Html.DisplayFor(modelItem => item.CodigoProducto)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Modelo)
+                @Html.DisplayFor(modelItem => item.Nombre)
             </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Modelo)
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.PrecioUsd)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CodigoProducto)
+                @Html.DisplayFor(modelItem => item.IdCelularNavigation!.Modelo)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCelularNavigation!.IdCelular)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdPartes">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdPartes">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdPartes">Delete</a>
-            </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdPartes" class="btn btn-success" data-bs-toggle="tooltip" title="Editar">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.IdPartes" class="btn btn-primary" data-bs-toggle="tooltip" title="Detalles">
+                        <i class="bi bi-info-square"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.IdPartes" class="btn btn-danger" data-bs-toggle="tooltip" title="Eliminar">
+                        <i class="bi bi-x-square"></i>
+                    </a>
+                </td>
         </tr>
 }
     </tbody>

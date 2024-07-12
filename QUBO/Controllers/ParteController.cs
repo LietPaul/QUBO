@@ -43,11 +43,18 @@ namespace QUBO.Controllers
 
             return View(parte);
         }
-
-        // GET: Parte/Create
-        public IActionResult Create()
+        public IActionResult Create(long? id)
         {
-            ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular");
+            ViewBag.IdExists = false;
+            if (id != null )
+            {
+                ViewBag.IdExists = true;
+                ViewBag.IdCelular = id;
+            }
+            else
+            {
+                ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "Modelo");
+            }
             return View();
         }
 
@@ -56,15 +63,21 @@ namespace QUBO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPartes,Nombre,Modelo,PrecioUsd,CodigoProducto,IdCelular")] Parte parte)
+        public async Task<IActionResult> Create(long? id,[Bind("IdPartes,Nombre,Modelo,PrecioUsd,CodigoProducto,IdCelular")] Parte parte)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(parte);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (id != null)
+                {
+                    return RedirectToAction("Create","DetalleArreglo", new { id });
+                }
+                else { 
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", parte.IdCelular);
+            ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "Modelo", parte.IdCelular);
             return View(parte);
         }
 
@@ -81,7 +94,7 @@ namespace QUBO.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", parte.IdCelular);
+            ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "Modelo", parte.IdCelular);
             return View(parte);
         }
 
@@ -117,7 +130,7 @@ namespace QUBO.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", parte.IdCelular);
+            ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "Modelo", parte.IdCelular);
             return View(parte);
         }
 
