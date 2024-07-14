@@ -17,11 +17,11 @@
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <!--<div class="form-group">
                 <label asp-for="Modelo" class="control-label"></label>
                 <input asp-for="Modelo" class="form-control" />
                 <span asp-validation-for="Modelo" class="text-danger"></span>
-            </div>
+            </div>-->
             <div class="form-group">
                 <label asp-for="PrecioUsd" class="control-label"></label>
                 <input asp-for="PrecioUsd" class="form-control" />
@@ -32,10 +32,16 @@
                 <input asp-for="CodigoProducto" class="form-control" />
                 <span asp-validation-for="CodigoProducto" class="text-danger"></span>
             </div>
+            @if (@ViewBag.IdExists != false)
+            {
+                <input type="hidden" asp-for="IdCelular" value="@ViewBag.IdCelular" />
+
+            }else{
             <div class="form-group">
                 <label asp-for="IdCelular" class="control-label"></label>
                 <select asp-for="IdCelular" class ="form-control" asp-items="ViewBag.IdCelular"></select>
             </div>
+            }
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

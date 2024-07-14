@@ -62,10 +62,24 @@ namespace QUBO.Controllers
         }
 
         // GET: DetalleArreglo/Create
-        public IActionResult Create(long? id)
+        public async Task<IActionResult> Create(long? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Obtener el arreglo correspondiente al id proporcionado
+            var arreglo = await _context.Arreglos
+                .FirstOrDefaultAsync(a => a.IdArreglo == id);
+            if (arreglo == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.IdCelular = arreglo.IdCelular;
             ViewBag.IdArreglo = id;
-            ViewData["IdParte"] = new SelectList(_context.Partes, "IdPartes", "IdPartes");
+            ViewData["IdParte"] = new SelectList(_context.Partes.Where(p=> p.IdCelular == arreglo.IdCelular), "IdPartes", "Nombre");
             return View();
         }
 
@@ -80,11 +94,10 @@ namespace QUBO.Controllers
             {
                 _context.Add(detalleArreglo);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
                 return RedirectToAction("Index", new { id = detalleArreglo.IdArreglo }); // Redirigir a la vista de detalles del idArreglo
             }
             ViewData["IdArreglo"] = new SelectList(_context.Arreglos, "IdArreglo", "IdArreglo", detalleArreglo.IdArreglo);
-            ViewData["IdParte"] = new SelectList(_context.Partes, "IdPartes", "IdPartes", detalleArreglo.IdParte);
+            ViewData["IdParte"] = new SelectList(_context.Partes, "IdPartes", "Nombre", detalleArreglo.IdParte);
             return View(detalleArreglo);
         }
 
@@ -101,8 +114,11 @@ namespace QUBO.Controllers
             {
                 return NotFound();
             }
+            var arreglo = await _context.Arreglos
+                .FirstOrDefaultAsync(a => a.IdArreglo == detalleArreglo.IdArreglo);
+            
             ViewData["IdArreglo"] = new SelectList(_context.Arreglos, "IdArreglo", "IdArreglo", detalleArreglo.IdArreglo);
-            ViewData["IdParte"] = new SelectList(_context.Partes, "IdPartes", "IdPartes", detalleArreglo.IdParte);
+            ViewData["IdParte"] = new SelectList(_context.Partes.Where(p => p.IdCelular == arreglo!.IdCelular), "IdPartes", "Nombre", detalleArreglo.IdParte); //CAMBIAR
             return View(detalleArreglo);
         }
 
@@ -139,7 +155,7 @@ namespace QUBO.Controllers
                 return RedirectToAction("Index", new { id = detalleArreglo.IdArreglo }); // Redirigir a la vista de detalles del idArreglo
             }
             ViewData["IdArreglo"] = new SelectList(_context.Arreglos, "IdArreglo", "IdArreglo", detalleArreglo.IdArreglo);
-            ViewData["IdParte"] = new SelectList(_context.Partes, "IdPartes", "IdPartes", detalleArreglo.IdParte);
+            ViewData["IdParte"] = new SelectList(_context.Partes, "IdPartes", "Nombre", detalleArreglo.IdParte);
             return View(detalleArreglo);
         }
 
@@ -175,7 +191,7 @@ namespace QUBO.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", new { id }); // Redirigir a la vista de detalles del idArreglo
+            return RedirectToAction("Index", new { id = detalleArreglo?.IdArreglo }); // Redirigir a la vista de detalles del idArreglo
         }
 
         private bool DetalleArregloExists(long id)
