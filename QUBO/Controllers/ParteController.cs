@@ -19,9 +19,15 @@ namespace QUBO.Controllers
         }
 
         // GET: Parte
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(long? id)
         {
-            var quboDbContext = _context.Partes.Include(p => p.IdCelularNavigation);
+            var quboDbContext = _context.Partes.Include(p => p.IdCelularNavigation)
+                                .Where(p => p.IdCelularNavigation!.IdCelular == id);
+            if (id == null)
+            {
+                quboDbContext = _context.Partes.Include(p => p.IdCelularNavigation);
+            }
+             
             return View(await quboDbContext.ToListAsync());
         }
 
