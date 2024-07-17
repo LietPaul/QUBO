@@ -95,10 +95,15 @@ namespace QUBO.Controllers
             ViewData["ClienteDni"] = cliente?.Dni ?? string.Empty;
             ViewData["CelularCodigo"] = celular?.CodigoProducto ?? string.Empty;
             //FIN DEL BLOQUE ANTERIOR
-
+            var usuarios = _context.Usuarios
+            .Select(u => new
+            {
+                IdUsuario = u.IdUsuario,
+                NombreCompleto = u.Nombre + " " + u.Apellido
+            }).ToList();
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", arreglo.IdCelular);
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente", arreglo.IdCliente);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", arreglo.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(usuarios, "IdUsuario", "NombreCompleto", arreglo.IdUsuario);
             return View(arreglo);
         }
 
@@ -136,7 +141,7 @@ namespace QUBO.Controllers
             }
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", arreglo.IdCelular);
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente", arreglo.IdCliente);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", arreglo.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "Nombre", arreglo.IdUsuario);
             return View(arreglo);
         }
 

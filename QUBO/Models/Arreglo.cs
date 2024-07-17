@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QUBO.Models;
 
@@ -16,9 +18,7 @@ public partial class Arreglo
     public DateTime? FechaIng { get; set; }
 
     public DateTime? FechaEnt { get; set; }
-
     public decimal? Senia { get; set; }
-
     public decimal? Total { get; set; }
 
     public long? IdUsuario { get; set; }
