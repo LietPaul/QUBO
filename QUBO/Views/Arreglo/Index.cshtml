@@ -7,20 +7,26 @@
 <h1>Historial de pedidos</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-success">Agregar <i class="bi bi-plus-circle-fill"></i></a>
+    <a asp-action="Create" class="btn btn-success">Agregar Nuevo <i class="bi bi-plus-lg"></i></a>
 </p>
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
+            <th class="text-center">
+                Dni Cliente
+            </th>
+            <th class="text-center">
+                Modelo
+            </th>
             <th class="text-center">
                 @Html.DisplayNameFor(model => model.Problema)
             </th>
             <th class="text-center">
                 Ingreso
             </th>
-            <th>
+            <th class="text-center">
                 Entrega
-            </th class="text-center">
+            </th>
             <th class="text-center">
                 Seña
             </th>
@@ -31,15 +37,6 @@
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th class="text-center">
-                Codigo Producto
-            </th>
-            <th class="text-center">
-                Modelo
-            </th>
-            <th class="text-center">
-                Dni Cliente
-            </th>
-            <th class="text-center">
                 Tecnico
             </th>
             <th></th>
@@ -48,6 +45,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdClienteNavigation!.Dni)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCelularNavigation!.Modelo)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Problema)
             </td>
@@ -65,15 +68,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCelularNavigation!.CodigoProducto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCelularNavigation!.Modelo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdClienteNavigation!.Dni)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdUsuarioNavigation!.Nombre)
