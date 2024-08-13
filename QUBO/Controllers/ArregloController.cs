@@ -19,12 +19,37 @@ namespace QUBO.Controllers
         }
 
         // GET: Arreglo
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? estado, bool? sinRep)
         {
-            var quboDbContext = _context.Arreglos.Include(a => a.IdCelularNavigation).Include(a => a.IdClienteNavigation).Include(a => a.IdUsuarioNavigation);
-            return View(await quboDbContext.ToListAsync());
+            // Consulta base
+            IQueryable<Arreglo> query = _context.Arreglos
+                .Include(a => a.IdCelularNavigation)
+                .Include(a => a.IdClienteNavigation)
+                .Include(a => a.IdUsuarioNavigation);
+
+            // Filtrar por estado
+            if (!string.IsNullOrEmpty(estado) && estado != "Todos")
+            {
+                query = query.Where(a => a.Estado == estado);
+            }
+
+            // Filtrar por checkbox
+            if (sinRep != true)
+            {
+                if (estado != "Sin reparacion")
+                {
+                    query = query.Where(a => a.Estado != "Sin reparacion");
+                }
+            }
+
+            // Ordenar por fecha de ingreso más reciente a más antigua
+            query = query.OrderByDescending(a => a.FechaIng);
+
+            var arreglos = await query.ToListAsync();
+            return View(arreglos);
         }
-        
+
+
         // GET: Arreglo/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -49,12 +74,23 @@ namespace QUBO.Controllers
         // GET: Arreglo/Create
         public IActionResult Create()
         {
+            // Filtrar los usuarios con el rol 'TECNICO'
+            var tecnicos = _context.Usuarios
+                .Where(u => u.RolUsuario == "TECNICO")
+                .Select(u => new
+                {
+                    IdUsuario = u.IdUsuario,
+                    NombreCompleto = u.Nombre + " " + u.Apellido
+                })
+                .ToList();
+
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular");
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente");
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "Nombre");
+            ViewData["IdUsuario"] = new SelectList(tecnicos, "IdUsuario", "NombreCompleto");
             return View();
         }
-        
+
+
         // POST: Arreglo/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -94,16 +130,20 @@ namespace QUBO.Controllers
 
             ViewData["ClienteDni"] = cliente?.Dni ?? string.Empty;
             ViewData["CelularCodigo"] = celular?.CodigoProducto ?? string.Empty;
-            //FIN DEL BLOQUE ANTERIOR
-            var usuarios = _context.Usuarios
-            .Select(u => new
-            {
-                IdUsuario = u.IdUsuario,
-                NombreCompleto = u.Nombre + " " + u.Apellido
-            }).ToList();
+
+            // Filtrar los usuarios con el rol 'TECNICO'
+            var tecnicos = _context.Usuarios
+                .Where(u => u.RolUsuario == "TECNICO")
+                .Select(u => new
+                {
+                    IdUsuario = u.IdUsuario,
+                    NombreCompleto = u.Nombre + " " + u.Apellido
+                })
+                .ToList();
+            
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", arreglo.IdCelular);
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente", arreglo.IdCliente);
-            ViewData["IdUsuario"] = new SelectList(usuarios, "IdUsuario", "NombreCompleto", arreglo.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(tecnicos, "IdUsuario", "NombreCompleto", arreglo.IdUsuario);
             return View(arreglo);
         }
 
