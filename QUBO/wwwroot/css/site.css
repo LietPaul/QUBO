@@ -44,3 +44,45 @@ body {
     color: #000; /* color del icono al pasar el ratón por encima */
 }
 /*Mostrar y ocultar contraseña*/
+
+/*ESTADOS*/
+.entrante {
+    background-color: #66ff5c; /* Verde más suave pero aún visible */
+    font-weight: bold;
+}
+
+.reparando {
+    background-color: #fff4a3; /* Amarillo suave, no tan brillante */
+    font-weight: bold;
+}
+
+.terminado {
+    background-color: #6a7bff; /* Azul intermedio, menos brillante */
+    font-weight: bold;
+}
+
+.entregado {
+    background-color: #8cb3ff; /* Azul más suave, pero todavía visible */
+    font-weight: bold;
+}
+
+.sin-reparacion {
+    background-color: #ff3333; /* Rojo intenso, manteniendo el tono rojo */
+    font-weight: bold;
+    color: white;
+}
+
+.sin-falla-encontrada {
+    background-color: #d58cff; /* Púrpura más tenue, intermedio */
+    font-weight: bold;
+}
+
+.esperando-confirmacion {
+    background-color: #ff8c4d; /* Naranja intermedio, menos brillante */
+    font-weight: bold;
+}
+
+.esperando-repuesto {
+    background-color: #b0b0b0; /* Gris intermedio, más suave */
+    font-weight: bold;
+}
