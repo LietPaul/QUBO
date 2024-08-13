@@ -15,9 +15,12 @@ public partial class Arreglo
 
     public string? Problema { get; set; }
 
+    [Display(Name = "Ingreso")]
     public DateTime? FechaIng { get; set; }
 
+    [Display(Name = "Entrega")]
     public DateTime? FechaEnt { get; set; }
+    [Display(Name = "Seña")]
     public decimal? Senia { get; set; }
     public decimal? Total { get; set; }
 

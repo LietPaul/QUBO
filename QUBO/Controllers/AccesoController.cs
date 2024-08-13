@@ -80,6 +80,7 @@ namespace QUBO.Controllers
                 ViewData["Mensaje"] = "Contraseña incorrecta";
                 return View();
             }
+            HttpContext.Session.SetString("RolUsuario", findedUser.RolUsuario ?? string.Empty);
             return RedirectToAction("Index", "Home");
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace QUBO.Models;
 
@@ -13,6 +14,7 @@ public partial class Celular
 
     public string? CodigoProducto { get; set; }
 
+    [Display(Name = "Precio")]
     public decimal? PrecioUsd { get; set; }
 
     public virtual ICollection<Arreglo> Arreglos { get; set; } = new List<Arreglo>();

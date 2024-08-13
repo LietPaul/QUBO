@@ -17,16 +17,7 @@
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Contrasenia" class="control-label"></label>
-                <input asp-for="Contrasenia" class="form-control" />
-                <span asp-validation-for="Contrasenia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RolUsuario" class="control-label"></label>
-                <input asp-for="RolUsuario" class="form-control" />
-                <span asp-validation-for="RolUsuario" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <label asp-for="Apellido" class="control-label"></label>
                 <input asp-for="Apellido" class="form-control" />
@@ -43,7 +34,22 @@
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="Contrasenia" class="control-label"></label>
+                <input asp-for="Contrasenia" class="form-control" />
+                <span asp-validation-for="Contrasenia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RolUsuario" class="control-label"></label>
+                <select asp-for="RolUsuario" class="form-control">
+                    <option value="">Seleccione un rol</option>
+                    <option value="TECNICO">TECNICO</option>
+                    <option value="VENDEDOR">VENDEDOR</option>
+                    <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+                </select>
+                <span asp-validation-for="RolUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear Usuario" class="btn btn-primary" />
             </div>
             @if (ViewData["Mensaje"] != null)
             {
@@ -66,7 +72,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver</a>
 </div>
 
 @section Scripts {

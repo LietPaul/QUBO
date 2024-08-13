@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace QUBO.Models;
 
@@ -11,8 +12,10 @@ public partial class Parte
 
     public string? Modelo { get; set; }
 
+    [Display(Name = "Precio")]
     public decimal? PrecioUsd { get; set; }
 
+    [Display(Name = "Codigo")]
     public string? CodigoProducto { get; set; }
 
     public long? IdCelular { get; set; }
