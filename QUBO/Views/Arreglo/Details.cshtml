@@ -1,7 +1,10 @@
 ﻿@model QUBO.Models.Arreglo
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Details";
+    var rolUsuario = HttpContextAccessor.HttpContext!.Session.GetString("RolUsuario");
 }
 
 <h1>Detalles</h1>
@@ -79,6 +82,8 @@
 </div>
 <hr />
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdArreglo" class="btn btn-success">Editar</a> |
+    @if (rolUsuario == "ADMINISTRADOR" || rolUsuario == "VENDEDOR") 
+    {<a asp-action="Edit" asp-route-id="@Model?.IdArreglo" class="btn btn-success">Editar</a>}
+
     <a asp-action="Index" class="btn btn-primary">Volver</a>
 </div>
