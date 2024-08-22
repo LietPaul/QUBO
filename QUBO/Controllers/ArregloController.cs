@@ -19,7 +19,7 @@ namespace QUBO.Controllers
         }
 
         // GET: Arreglo
-        public async Task<IActionResult> Index(string? estado, bool? sinRep)
+        public async Task<IActionResult> Index(string? estado, bool? sinRep, string? searchString)
         {
             // Consulta base
             IQueryable<Arreglo> query = _context.Arreglos
@@ -40,6 +40,18 @@ namespace QUBO.Controllers
                 {
                     query = query.Where(a => a.Estado != "Sin reparacion");
                 }
+            }
+
+            // Filtro por término de búsqueda
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(a =>
+                    a.IdClienteNavigation!.Dni!.Contains(searchString) ||
+                    a.IdCelularNavigation!.CodigoProducto!.Contains(searchString) ||
+                    a.IdCelularNavigation!.Modelo!.Contains(searchString) ||
+                    a.IdCelularNavigation!.Marca!.Contains(searchString) ||
+                    a.IdUsuarioNavigation!.Nombre!.Contains(searchString) ||
+                    a.IdUsuarioNavigation!.Apellido!.Contains(searchString));
             }
 
             // Ordenar por fecha de ingreso más reciente a más antigua
