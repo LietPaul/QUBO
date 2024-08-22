@@ -51,7 +51,8 @@ namespace QUBO.Controllers
                     a.IdCelularNavigation!.Modelo!.Contains(searchString) ||
                     a.IdCelularNavigation!.Marca!.Contains(searchString) ||
                     a.IdUsuarioNavigation!.Nombre!.Contains(searchString) ||
-                    a.IdUsuarioNavigation!.Apellido!.Contains(searchString));
+                    a.IdUsuarioNavigation!.Apellido!.Contains(searchString) ||
+                    a.Problema!.Contains(searchString));
             }
 
             // Ordenar por fecha de ingreso más reciente a más antigua
