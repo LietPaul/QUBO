@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +15,7 @@ namespace QUBO.Controllers
         }
 
         // GET: Arreglo
-        public async Task<IActionResult> Index(string? estado, bool? sinRep, string? searchString)
+        public async Task<IActionResult> Index(string? estado, bool? sinRep, string? searchString, int pg = 1)
         {
             // Consulta base
             IQueryable<Arreglo> query = _context.Arreglos
@@ -59,7 +55,17 @@ namespace QUBO.Controllers
             query = query.OrderByDescending(a => a.FechaIng);
 
             var arreglos = await query.ToListAsync();
-            return View(arreglos);
+
+            const int pageSize = 10;
+            if (pg < 1) { pg = 1; }
+            int recsCount = arreglos.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = arreglos.Skip(recSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
+            //return View(arreglos);
+
+            return View(data);
         }
 
 
@@ -153,7 +159,7 @@ namespace QUBO.Controllers
                     NombreCompleto = u.Nombre + " " + u.Apellido
                 })
                 .ToList();
-            
+
             ViewData["IdCelular"] = new SelectList(_context.Celulars, "IdCelular", "IdCelular", arreglo.IdCelular);
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "IdCliente", arreglo.IdCliente);
             ViewData["IdUsuario"] = new SelectList(tecnicos, "IdUsuario", "NombreCompleto", arreglo.IdUsuario);

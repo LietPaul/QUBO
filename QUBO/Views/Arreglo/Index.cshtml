@@ -7,6 +7,14 @@
 @{
     ViewData["Title"] = "Index";
     var rolUsuario = HttpContextAccessor.HttpContext!.Session.GetString("RolUsuario");
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if(ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <h1>Historial de pedidos</h1>
@@ -54,6 +62,7 @@
     <button type="submit" class="btn btn-primary">Buscar</button>
 </form>-->
 
+<partial name="_pager" model="pager" />
 
 <table class="table table-bordered">
     <thead>
@@ -137,6 +146,8 @@
                     }
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+
+<partial name="_pager" model="pager" />
