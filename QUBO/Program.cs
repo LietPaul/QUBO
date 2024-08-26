@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QUBO.Models;
@@ -22,13 +23,17 @@ builder.Services.AddSession(options =>
 builder.Services.AddHttpContextAccessor();
 
 // Configurar la autenticación con cookies
-builder.Services.ConfigureApplicationCookie(options =>
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Acceso/Login";
+        options.AccessDeniedPath = "/Acceso/AccessDenied";
+    });
+
+builder.Services.AddAuthorization(options =>
 {
-    options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Account/AccessDenied";
+    // Puedes agregar políticas de autorización aquí si es necesario
 });
-
-
 
 var app = builder.Build();
 
@@ -45,8 +50,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
+app.UseAuthentication();  // Asegúrate de que esté antes de UseAuthorization
 app.UseAuthorization();
+
 app.UseSession();
 app.MapControllerRoute(
     name: "default",

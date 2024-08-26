@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using QUBO.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace QUBO.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

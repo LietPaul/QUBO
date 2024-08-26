@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QUBO.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QUBO.Controllers
 {
+    [Authorize]
     public class UsuariosController : Controller
     {
         private readonly QuboDbContext _context;

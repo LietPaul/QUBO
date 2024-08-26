@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QUBO.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QUBO.Controllers
 {
+    [Authorize]
     public class ClienteController : Controller
     {
         private readonly QuboDbContext _context;
