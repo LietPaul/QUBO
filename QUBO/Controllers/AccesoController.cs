@@ -126,14 +126,19 @@ namespace QUBO.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            // Deslogear y eliminar la cookie de autenticación
+            // Eliminar la autenticación y cookies de sesión
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             // Limpiar todos los datos de la sesión
             HttpContext.Session.Clear();
 
+            // Eliminar cookies específicas (como .AspNetCore.Session)
+            Response.Cookies.Delete(".AspNetCore.Session");
+            Response.Cookies.Delete(".AspNetCore.Antiforgery." + HttpContext.Session.Id);
+
             // Redirigir a la página de login
             return RedirectToAction("Login", "Acceso");
         }
+
     }
 }

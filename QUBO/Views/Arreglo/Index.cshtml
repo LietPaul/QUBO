@@ -101,10 +101,14 @@
     @foreach (var item in Model) {
         <tr class="@(item.Estado?.Replace(" ", "-").ToLower())">
             <td>
-                @Html.DisplayFor(modelItem => item.IdClienteNavigation!.Dni)
+                <a asp-controller="Cliente" asp-action="Details" asp-route-id="@item.IdClienteNavigation?.IdCliente" class="text-decoration-none text-reset" data-bs-toggle="tooltip" title="Info del cliente">
+                    @Html.DisplayFor(modelItem => item.IdClienteNavigation!.Dni)
+                </a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCelularNavigation!.Modelo)
+                <a asp-controller="Celular" asp-action="Details" asp-route-id="@item.IdCelularNavigation?.IdCelular" class="text-decoration-none text-reset" data-bs-toggle="tooltip" title="Info del celular">
+                    @Html.DisplayFor(modelItem => item.IdCelularNavigation!.Modelo)
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Problema)
