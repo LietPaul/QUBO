@@ -102,7 +102,7 @@ namespace QUBO.Controllers
             // Crear los claims de identidad
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, findedUser.Dni),
+                new Claim(ClaimTypes.Name, findedUser.Dni!),
                 new Claim(ClaimTypes.Role, findedUser.RolUsuario ?? string.Empty)
             };
 

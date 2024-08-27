@@ -18,10 +18,12 @@
 }
 
 <h1>Historial de pedidos</h1>
-<p>
-    <a asp-action="Create" class="btn btn-success">Agregar Nuevo <i class="bi bi-plus-lg"></i></a>
-</p>
-
+@if (rolUsuario == "ADMINISTRADOR" || rolUsuario == "VENDEDOR")
+{
+    <p>
+        <a asp-action="Create" class="btn btn-success">Agregar Nuevo <i class="bi bi-plus-lg"></i></a>
+    </p>
+}
 <!-- Formulario para filtrar por estado -->
 <form method="get" asp-action="Index">
     <div class="form-group row">

@@ -36,7 +36,8 @@
         </dt>
         <dd class = "col-sm-10">
             @{
-                string seniaFormatted = String.Format("{0:C}", Model.Senia);
+                var cultureInfoSenia = new System.Globalization.CultureInfo("es-AR");
+                string seniaFormatted = String.Format(cultureInfoSenia, "{0:C}", Model.Senia);
             }
             @seniaFormatted
         </dd>
@@ -45,7 +46,8 @@
         </dt>
         <dd class = "col-sm-10">
             @{
-                string totalFormatted = String.Format("{0:C}", Model.Total);
+                var cultureInfoTotal = new System.Globalization.CultureInfo("es-AR");
+                string totalFormatted = String.Format(cultureInfoTotal, "{0:C}", Model.Total);
             }
 
             @totalFormatted

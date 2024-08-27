@@ -1,14 +1,18 @@
 ﻿@model IEnumerable<QUBO.Models.Parte>
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Index";
+    var rolUsuario = HttpContextAccessor.HttpContext!.Session.GetString("RolUsuario");
 }
 
 <h1>Index</h1>
-
-<p>
-    <a asp-action="Create" class="btn btn-success">Agregar Nuevo <i class="bi bi-plus-lg"></i></a>
-</p>
+@if (rolUsuario == "ADMINISTRADOR")
+{
+    <p>
+        <a asp-action="Create" class="btn btn-success">Agregar Nuevo <i class="bi bi-plus-lg"></i></a>
+    </p>
+}
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
